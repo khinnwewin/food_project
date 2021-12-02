@@ -22,6 +22,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\Admin\OrderController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\Admin\OrderController::class, 'index'])->name('home');
 Route::resource('dish',App\Http\Controllers\Admin\DishController::class);
+
+
+
+
+
 

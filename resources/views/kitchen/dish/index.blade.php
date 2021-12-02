@@ -22,21 +22,43 @@
           <div class="col-lg-12">
             <div class="card">
 	        <div class="card-header">
-		        <h3 class="card-title">DataTable with default features</h3>
+		        <h3 class="card-title">Dishes</h3>
+		        <a href="dish/create" class="btn btn-default float-right">Create New Dish</a>
 		    </div>
 		      <!-- /.card-header -->
 	      	<div class="card-body">
+	      		@if (session('message'))
+						    <div class="alert alert-success">
+						        {{ session('message') }}
+						    </div>
+						@endif
 	      		<table id="dishes" class="table table-bordered table-striped">
 	                  <thead>
 	                  <tr>
-	                    <th>Browser</th>
-	                    <th>Platform(s)</th>
-	                    <th>Engine version</th>
-	                    <th>CSS grade</th>
+	                    <th>Dish Name</th>
+	                    <th>Category Name</th>
+	                    <th>Created At</th>
+	                    <th>Actions</th>
 	                  </tr>
 	                  </thead>
 	                  <tbody>
-	                  
+	                  @foreach($dishes as $dish)
+	                  <tr>
+	                    <th>{{$dish->name}}</th>
+	                    <th>{{$dish->category->name}}</th>
+	                    <th>{{$dish->created_at}}</th>
+	                    <th>
+	                    	<div class="form-row">
+	                    	<a style="height:40px;margin-right: 10px;" href="dish/{{$dish->id}}/edit" class="btn btn-warning">Edit</a>
+	                    	<form action="/dish/{{$dish->id}}" method="POST">
+											    	@csrf
+											    	@method('DELETE')
+											    	<button type="submit" class="btn btn-danger">DELETE</button>
+												</form>
+												</div>
+	                    </th>
+	                  </tr>
+	                  @endforeach
 	                  </tbody>
 	                </table>
 	      	</div>
@@ -52,12 +74,13 @@
   <!-- /.content-wrapper -->
    
 @endsection
+<script src="plugins/jquery/jquery.min.js"></script>
+
     <script>
 	  $(function () {
 	    $('#dishes').DataTable({
 	      "paging": true,
-	      "lengthChange": false,
-	      "searching": false,
+	      "page_length":15,
 	      "ordering": true,
 	      "info": true,
 	      "autoWidth": false,
