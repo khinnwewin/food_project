@@ -14,16 +14,19 @@ use App\Http\Controllers\Admin\DishController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\Admin\OrderController::class, 'index'])->name('order.form');
+Route::post('order_submit', [App\Http\Controllers\Admin\OrderController::class, 'submit'])->name('order.submit');
 
 
 
 Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\Admin\OrderController::class, 'index'])->name('home');
 Route::resource('dish',App\Http\Controllers\Admin\DishController::class);
+Route::get('order',[App\Http\Controllers\Admin\DishController::class,'order'])->name('kitchen.order');
+Route::get('order/{order}/approve',[App\Http\Controllers\Admin\DishController::class,'approve']);
+Route::get('order/{order}/cancel',[App\Http\Controllers\Admin\DishController::class,'cancel']);
+Route::get('order/{order}/ready',[App\Http\Controllers\Admin\DishController::class,'ready']);
+Route::get('order/{order}/serve',[App\Http\Controllers\Admin\OrderController::class,'serve']);
+
 
 
 
